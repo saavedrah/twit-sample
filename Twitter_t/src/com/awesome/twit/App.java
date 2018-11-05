@@ -1,5 +1,6 @@
 package com.awesome.twit;
 
+import java.util.List;
 import java.util.Scanner;
 import twitter4j.*;
 import twitter4j.auth.AccessToken;
@@ -144,13 +145,23 @@ public class App {
 
 
         }
-        
+        // Get User info
         else if (choice.equalsIgnoreCase("U")) {
         	User userInfo = twitter.showUser("hnew330_dev");
         	System.out.print(userInfo.getName() + "\n");
         	System.out.print(userInfo.getDescription() + "\n");
         	System.out.print(userInfo.getLocation() + "\n");
         	System.out.print(userInfo.getLang() + "\n");
+        	System.out.print("Status: " + userInfo.getStatus() + "\n");
+        }
+        else if (choice.equalsIgnoreCase("F")) {
+        	// Friendship
+        	IDs friendsIds = twitter.getFriendsIDs("hnew330_dev", 200);
+        	System.out.println("Number of friends:" + friendsIds.getIDs().length);
+        	while (friendsIds.hasNext()) {
+        		User userInfo = twitter.showUser(friendsIds.getNextCursor());
+        		System.out.print(userInfo.getName() + "\n");
+        	}
         }
         // Bad choice
         else {
